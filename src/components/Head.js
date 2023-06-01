@@ -1,9 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
+import { YOUTUBE_SEARCH_API } from "../utils/contants";
+import { json } from "react-router-dom";
 
 const Head = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggetions, setShowsuggestions] = useState(false);
+
+  useEffect(() => {
+    // Make an API call after every key pressed
+    //but if the diff between two API calls is <200ms declane the API call
+    const timer = setTimeout(() => getSearchSuggestions(), 200);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchQuery]);
+
+  /* If u search i in search bar (Iphone)
+        - render the component
+        - useEffect (); will be called
+        - start timer -> make API call after 200ms
+
+     If u search p in search bar 
+        - again it will re-render the component
+        - useEffect(); will be called
+        - newly start timer -> make API call after 200ms (it will reset the timer)
+  */
+
+  const getSearchSuggestions = async () => {
+    console.log("API call -> " + searchQuery);
+    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+    const json = await data.json();
+    // console.log(json[1]);
+    setSuggestions(json[1]);
+  };
+
   const dispatch = useDispatch();
+
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
@@ -26,13 +62,30 @@ const Head = () => {
       </div>
 
       <div className="col-span-10 m-3">
-        <input
-          className="w-1/2 border rounded-l-full border-gray-400"
-          type="text "
-        />
-        <button className="border px-2 border-gray-400 rounded-r-full">
-          Search
-        </button>
+        <div>
+          <input
+            className="w-1/2 border px-9 rounded-l-full border-gray-400"
+            type="text "
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setShowsuggestions(true)}
+            onBlur={() => setShowsuggestions(false)}
+          />
+          <button className="border px-2 border-gray-400 rounded-r-full">
+            Search
+          </button>
+        </div>
+        {showSuggetions && (
+          <div className="fixed bg-white w-[31.5rem] shadow-lg rounded-lg border border-gray-100">
+            <ul>
+              {suggestions.map((s) => (
+                <li key={s} className="px-4 py-2 hover:bg-gray-100">
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <div className="col-span-1">
         <img

@@ -1,7 +1,7 @@
 import React from "react";
 
 const VideoCard = ({ info }) => {
-  console.log(info);
+  // console.log(info);
 
   if (!info || !info.snippet) {
     return null; // Render nothing if info or snippet is undefined
