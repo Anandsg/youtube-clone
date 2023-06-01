@@ -1,18 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/contants";
-import { json } from "react-router-dom";
+import store from "../utils/store";
+import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggetions, setShowsuggestions] = useState(false);
 
+  const searchCache = useSelector((state) => state.search);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     // Make an API call after every key pressed
     //but if the diff between two API calls is <200ms declane the API call
-    const timer = setTimeout(() => getSearchSuggestions(), 200);
+    const timer = setTimeout(() => {
+      if (searchCache[searchQuery]) {
+        setSuggestions(searchCache[searchQuery]);
+      } else {
+        getSearchSuggestions();
+      }
+    }, 200);
 
     return () => {
       clearTimeout(timer);
@@ -36,9 +47,14 @@ const Head = () => {
     const json = await data.json();
     // console.log(json[1]);
     setSuggestions(json[1]);
-  };
 
-  const dispatch = useDispatch();
+    //updating the cache
+    dispatch(
+      cacheResults({
+        [searchQuery]: json[1],
+      })
+    );
+  };
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -79,7 +95,7 @@ const Head = () => {
           <div className="fixed bg-white w-[31.5rem] shadow-lg rounded-lg border border-gray-100">
             <ul>
               {suggestions.map((s) => (
-                <li key={s} className="px-4 py-2 hover:bg-gray-100">
+                <li key={s} className="px-9 py-2 hover:bg-gray-100">
                   {s}
                 </li>
               ))}
