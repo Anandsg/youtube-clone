@@ -4,10 +4,12 @@ import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/contants";
 // import store from "../utils/store";
 import { cacheResults } from "../utils/searchSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [suggestions, setSuggestions] = useState([]);  
+  const [suggestions, setSuggestions] = useState([]);
   const [showSuggetions, setShowsuggestions] = useState(false);
 
   const searchCache = useSelector((state) => state.search);
@@ -77,25 +79,33 @@ const Head = () => {
         </a>
       </div>
 
-      <div className="col-span-10 m-3">
+      <div className="col-span-10 m-3  ">
         <div>
           <input
-            className="w-1/2 border px-9 rounded-l-full border-gray-400"
-            type="text "
+            className="w-1/2 border px-9 rounded-l-full border-gray-400 h-8  "
+            type="text"
+            placeholder="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={() => setShowsuggestions(true)}
             onBlur={() => setShowsuggestions(false)}
           />
-          <button className="border px-2 border-gray-400 rounded-r-full">
+
+          <button className="border px-2 border-gray-400 rounded-r-full h-8 ">
             Search
           </button>
         </div>
+
         {showSuggetions && (
-          <div className="fixed bg-white w-[31.5rem] shadow-lg rounded-lg border border-gray-100">
+          <div className="fixed bg-white w-[31.5rem] shadow-lg rounded-lg border border-gray-100 ">
             <ul>
               {suggestions.map((s) => (
                 <li key={s} className="px-9 py-2 hover:bg-gray-100">
+                  <FontAwesomeIcon
+                    icon={faSearch}
+                    className="mr-2"
+                    style={{ fontSize: "14px" }}
+                  />
                   {s}
                 </li>
               ))}
