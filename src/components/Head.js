@@ -78,11 +78,11 @@ const Head = () => {
           />
         </a>
       </div>
+      <div className="col-span-10 m-3">
 
-      <div className="col-span-10 m-3  ">
         <div>
           <input
-            className="w-1/2 border px-9 rounded-l-full border-gray-400 h-8  "
+            className="w-1/2 border px-9 rounded-l-full border-gray-400 h-9"
             type="text"
             placeholder="search"
             value={searchQuery}
@@ -91,7 +91,7 @@ const Head = () => {
             onBlur={() => setShowsuggestions(false)}
           />
 
-          <button className="border px-2 border-gray-400 rounded-r-full h-8 ">
+          <button className="border px-2 border-gray-400 rounded-r-full h-9">
             Search
           </button>
         </div>
