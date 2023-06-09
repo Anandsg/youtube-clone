@@ -66,7 +66,7 @@ const Head = () => {
       <div className="flex">
         <img
           onClick={() => toggleMenuHandler()}
-          className="h-12 col-span-1 cursor-pointer"
+          className="h-12  cursor-pointer"
           alt="menu"
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcyYIYjMqOdObTIuRhfemvIb9mc0JPmbmdoqgvLoYV-Vtqbpe1MtH3he8Z9acNT5mP1u4&usqp=CAU"
         />
@@ -78,11 +78,10 @@ const Head = () => {
           />
         </a>
       </div>
-      <div className="col-span-10 m-3">
-
+      <div className=" m-3">
         <div>
           <input
-            className="w-1/2 border px-9 rounded-l-full border-gray-400 h-9"
+            className="w-4/5 border px-9 rounded-l-full border-gray-400 h-9"
             type="text"
             placeholder="search"
             value={searchQuery}
@@ -97,7 +96,7 @@ const Head = () => {
         </div>
 
         {showSuggetions && (
-          <div className="fixed bg-white w-[31.5rem] shadow-lg rounded-lg border border-gray-100 ">
+          <div className="fixed bg-white w-[30rem] shadow-lg rounded-lg border border-gray-100 ">
             <ul>
               {suggestions.map((s) => (
                 <li key={s} className="px-9 py-2 hover:bg-gray-100">
@@ -113,7 +112,7 @@ const Head = () => {
           </div>
         )}
       </div>
-      <div className="col-span-1">
+      <div className="flex justify-end col-span-1">
         <img
           className="h-12"
           alt="user-icon"
