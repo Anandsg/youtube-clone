@@ -1,67 +1,79 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChatMessage from "./ChatMessage";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "../utils/chatSlice";
-import store from "../utils/store";
-import { generateRandoMessages, generateRandomNames } from "../utils/helper";
+import { generate } from "../utils/generateName";
+import { generateMessage } from "./../utils/generateMessage";
+import { generateProfileImage } from "../utils/generateProfileImages";
 
 const LiveChat = () => {
-  const dispatch = useDispatch();
-  const [LiveMessage, setLiveMessage] = useState("");
+  const [liveMessage, setLiveMessage] = useState("");
 
-  const ChatMessages = useSelector((store) => store.chat.messages);
+  const dispatch = useDispatch();
+
+  const chatMessages = useSelector((store) => store.chat.messages);
+
   useEffect(() => {
     const i = setInterval(() => {
-      // API polling
-      // console.log("API polling");
-
+      //   console.log("abc");
       dispatch(
         addMessage({
-          name: generateRandomNames(),
-          message: generateRandoMessages(18),
+          name: generate(),
+          message: generateMessage(),
+          profile: generateProfileImage(),
         })
       );
-    }, 1500);
+    }, 2000);
     return () => clearInterval(i);
+    // eslint-disable-next-line
   }, []);
   return (
-    <>
-      <div className="w-full  h-[550px] ml-2 p-2 border border-black bg-gray-100 rounded-md shadow-md overflow-y-scroll flex flex-col-reverse">
-        {/* Don't use the index as a key  */}
-        <div>
-          {ChatMessages.map((c, i) => (
-            <ChatMessage key={i} name={c.name} message={c.message} />
+    <div className="h-[580px] bg-white ml-2">
+      <div className="w-full border  border-black bg-slate-100 rounded-t-lg ">
+        <h1 className="font-bold border-b-2 border-black p-2">Live Chat</h1>
+        <div className="space-y-2 overflow-y-scroll p-2 flex flex-col-reverse h-[468px]">
+          {chatMessages.map((c, i) => (
+            <ChatMessage
+              key={i}
+              name={c.name}
+              message={c.message}
+              profile={c.profile}
+            />
           ))}
         </div>
       </div>
-
       <form
-        className="w-full p-2 ml-2 border border-black rounded-md"
+        className="w-full p-1 border border-black rounded-b-lg"
         onSubmit={(e) => {
           e.preventDefault();
-          // console.log("On submit", LiveMessage);
           dispatch(
             addMessage({
               name: "You",
-              message: LiveMessage,
+              message: liveMessage,
+              profile:
+                "https://resources.pulse.icc-cricket.com/photo-resources/2022/12/11/4ea298be-e798-48ba-b9f5-fc6ba267cf61/Kohli-drought.jpg?width=500&height=500",
             })
           );
           setLiveMessage("");
         }}
       >
         <input
-          className="w-96 px-2 border border-black"
           type="text"
-          value={LiveMessage}
+          className="w-[80%] border border-black rounded-lg py-1 px-2 "
+          value={liveMessage}
           onChange={(e) => {
             setLiveMessage(e.target.value);
           }}
+          placeholder="Write your comment here"
         />
-        <button className=" ml-3 px-2 border border-black bg-green-200 rounded-md">
-          send
+        <button
+          type="submit"
+          className="px-4 mx-2 bg-green-200 justify-center rounded-md py-1"
+        >
+          Send
         </button>
       </form>
-    </>
+    </div>
   );
 };
 

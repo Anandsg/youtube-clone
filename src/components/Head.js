@@ -30,6 +30,7 @@ const Head = () => {
     return () => {
       clearTimeout(timer);
     };
+    // eslint-disable-next-line
   }, [searchQuery]);
 
   /* If u search i in search bar (Iphone)
