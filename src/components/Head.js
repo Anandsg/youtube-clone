@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/contants";
-// import store from "../utils/store";
 import { cacheResults } from "../utils/searchSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -18,7 +17,7 @@ const Head = () => {
 
   useEffect(() => {
     // Make an API call after every key pressed
-    //but if the diff between two API calls is <200ms declane the API call
+    // If the diff between two API calls is <200ms declane the API call
     const timer = setTimeout(() => {
       if (searchCache[searchQuery]) {
         setSuggestions(searchCache[searchQuery]);
