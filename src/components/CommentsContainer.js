@@ -10,7 +10,7 @@ const CommentData = [
   {
     name: 'Priya',
     text: 'cool',
-    replies: [
+    replies: [ 
       {
         name: 'Surbhi',
         text: 'Superb soul touching song',
