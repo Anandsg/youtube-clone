@@ -5,7 +5,7 @@ const VideoCard = ({ info }) => {
   // console.log(info);
 
   if (!info || !info.snippet) {
-    return null; // Render nothing if info or snippet is undefined
+    return null;
   }
 
   const { snippet, statistics } = info;
