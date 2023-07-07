@@ -22,6 +22,6 @@ const VideoCard = ({ info }) => {
       </ul>
     </div>
   );
-};
+};  
 
 export default VideoCard;
